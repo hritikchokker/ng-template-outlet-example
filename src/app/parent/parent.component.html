@@ -1,3 +1,4 @@
+<p style="text-align:center;">example 1</p>
 <app-child
   [itemTemplate]="customItemTemplate"
   [data]="[{ id: 4, name: 'Laptop', rating: 3 },
@@ -6,8 +7,47 @@
 >
   <ng-template #customItemTemplate let-item>
     <div style="display: flex; justify-content: space-between;">
-      <span> {{ item.id }} - <b>{{ item.name }}</b> </span>
+      <h4>{{ item.id }} - <b>{{ item.name }}</b></h4>
       <mark> Stars: {{ item.rating }} </mark>
     </div>
   </ng-template>
 </app-child>
+
+<hr />
+<hr />
+
+<h1>Movies</h1>
+<ng-container
+  [ngTemplateOutlet]="listTemplate"
+  [ngTemplateOutletContext]="{ list: listData }"
+>
+</ng-container>
+
+<h1>Favorite Movies</h1>
+<ng-container
+  [ngTemplateOutlet]="listTemplate"
+  [ngTemplateOutletContext]="{ list: listData }"
+>
+</ng-container>
+
+<ng-container
+  *ngTemplateOutlet="itemTemplate; context: { $implicit: listData[0] }"
+>
+</ng-container>
+
+<ng-template #listTemplate let-list="list">
+  <div *ngFor="let item of listData">
+    <ng-container
+      [ngTemplateOutlet]="itemTemplate"
+      [ngTemplateOutletContext]="{ $implicit: item }"
+    >
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #itemTemplate let-item>
+  <span>{{ item.name }}</span>
+  <p>{{ item.description }}</p>
+  <!-- (click)="onClick(item)" -->
+  <button>Click Me</button>
+</ng-template>
